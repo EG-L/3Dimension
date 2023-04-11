@@ -16,7 +16,7 @@ from haversine import haversine
 import matplotlib.pyplot as plt
 import mplleaflet
 import matplotlib
-from PySide2 import QtWebEngineWidgets
+from PySide2.QtWebEngineWidgets import QWebEngineView
 import pandas as pd
 import re
 
@@ -431,7 +431,7 @@ class Map_READ(QDialog): # 지도 업데이트
 
         self.fig = self.plt.figure()
 
-        self.view = QtWebEngineWidgets.QWebEngineView()
+        self.view = QWebEngineView()
 
         self.ST.horizontalLayout.addWidget(self.view)
 
