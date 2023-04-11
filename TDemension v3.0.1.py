@@ -20,8 +20,6 @@ from PySide2.QtWebEngineWidgets import QWebEngineView
 import pandas as pd
 import re
 
-print("hello")
-
 def Multi_Calc(LOC,read_que,send_que,set_location,location,DSPEN,TRXPSEN,TRXCSEN,MNTIN,DC12VMNT,BOARD_TEMP,RTS_TEMP,RTS_DEPTH,DSP_TEMP):
     while True:
         if read_que.empty() != True:
