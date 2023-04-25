@@ -9,7 +9,7 @@ import paho.mqtt.subscribe as subscribe
 import paho.mqtt.publish as publish
 import time
 import pyqtgraph as pg
-from TOMO_COSTAL_KW import Ui_MainWindow
+from TOMO_COSTAL_KW_v1 import Ui_MainWindow
 import numpy as np
 from time import ctime
 from haversine import haversine
@@ -617,13 +617,8 @@ class WindowClass(QMainWindow,Ui_MainWindow):
                 Axis_data[i].clear()
             ''''''
 
-            '''Order Number 지정'''
-            if(self.comboBox_5.currentIndex() == 0):
-                OrderNumber = 4080
-            elif(self.comboBox_5.currentIndex() == 1):
-                OrderNumber = 16368
-            else:
-                OrderNumber = 65520
+            '''Order Number 지정''' #12오더 고정
+            OrderNumber = 65520
             ''''''
 
             self.textBrowser.append('%s : %s WAIT STATION %s'%(ctime(),ORDER_STRING[OrderNumber],LOCATION[0]))
