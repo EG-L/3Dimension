@@ -67,6 +67,7 @@ def Multi_GPS(send_que,GPS_DATA): # GPS UPDATE
             time.sleep(0.1)
         except Exception as e:
             print(e)
+            print("1")
             continue
 
 class QDialog_Setting(QDialog): ## SETTING
@@ -476,6 +477,7 @@ class Map_READ(QDialog): # 지도 업데이트
 
         except Exception as e:
             print(e)
+            print("2")
             self.plt.plot([0 for i in range(len(LOCATION))],[0 for i in range(len(LOCATION))],'bs',markersize=10)
             self.view.setHtml(mplleaflet.fig_to_html())
 
@@ -592,7 +594,7 @@ class WindowClass(QMainWindow,Ui_MainWindow):
         self.w.show()
 
     def TimeSet(self):
-        global ProcessingQue,Interval,select_hour,select_min,Index_Number,OrderNumber,LOCATION,DISTANCE,RT_data,RT_INDEX,FLOW_DATA,DATA_DEPTH,DATA_TEMP,DATA_TIME,ORDER_STRING
+        global ProcessingQue,Interval,select_hour,select_min,Index_Number,OrderNumber,LOCATION,DISTANCE,RT_data,RT_INDEX,FLOW_DATA,DATA_DEPTH,DATA_TEMP,DATA_TIME,ORDER_STRING,Axis_data
         try:
             self.textBrowser.clear()
             '''초기 데이터 세팅'''
@@ -610,6 +612,9 @@ class WindowClass(QMainWindow,Ui_MainWindow):
             Interval = int(self.lineEdit_3.text())
             self.pushButton_5.setDisabled(True)
             self.pushButton_4.setDisabled(True)
+            
+            for i in range(len(Axis_data)):
+                Axis_data[i].clear()
             ''''''
 
             '''Order Number 지정'''
@@ -620,7 +625,7 @@ class WindowClass(QMainWindow,Ui_MainWindow):
             else:
                 OrderNumber = 65520
             ''''''
-            
+
             self.textBrowser.append('%s : %s WAIT STATION %s'%(ctime(),ORDER_STRING[OrderNumber],LOCATION[0]))
             ProcessingQue.put('TimeSet')
 
@@ -658,9 +663,9 @@ class WindowClass(QMainWindow,Ui_MainWindow):
     @Slot(str)
     def DATA_UPDATE(self,DATA_RECV): # DRAW DATE PLOT
         #RECV_INDEX = STATION NUMBER, GPS=[[],[],[],[],[]]
-        global Axis_data,RT_data,RECV_INDEX,LOCATION,DISTANCE,GPS,SET_INDEX,OrderNumber,RT_INDEX,FLOW_DATA,ProcessingQue
+        global Axis_data,RT_data,RECV_INDEX,LOCATION,DISTANCE,GPS,SET_INDEX,OrderNumber,RT_INDEX,FLOW_DATA,ProcessingQue,COLOR_SET
 
-        self.textBrowser.append('STATION %s INDEX - %s'%(RECV_INDEX.value+1,RT_INDEX[RECV_INDEX.value][-1]+2000))
+        self.textBrowser.append('STATION %s INDEX : %s'%(RECV_INDEX.value+1,RT_INDEX[RECV_INDEX.value][-1]+2000))
 
         Dis_Dat = 0 # 거리 데이터
         Flow_DT = 0 # 속도 데이터
@@ -683,7 +688,7 @@ class WindowClass(QMainWindow,Ui_MainWindow):
                 ProcessingQue.put('RECV_MAP')
 
         SORTED_INDEX = sorted(LOCATION)
-        Axis_data[SORTED_INDEX.index(RECV_INDEX.value+1)].plot(RT_data[RECV_INDEX.value],clear=True)
+        Axis_data[SORTED_INDEX.index(RECV_INDEX.value+1)].plot(RT_data[RECV_INDEX.value],clear=True,pen=COLOR_SET[RECV_INDEX.value])
         Axis_data[SORTED_INDEX.index(RECV_INDEX.value+1)].setXRange(RT_INDEX[RECV_INDEX.value][-1],RT_INDEX[RECV_INDEX.value][-1]+4000)
 
     def LOLA_READ(self): #LONGITUDE LATITUDE SHOW LOG
@@ -719,7 +724,7 @@ class WindowClass(QMainWindow,Ui_MainWindow):
                 self.verticalLayout_13.addWidget(Axis_data[i])
                 self.tp.TEDE.comboBox.addItem("STATION %s"%str(sorted(LOCATION)[i]))
                 self.comboBox_2.addItem("STATION %s"%str(sorted(LOCATION)[i]))
-
+            
             publish.single(topic,b'LOCATION,'+bytes(str(LOCATION)[1:-1],'utf-8'),hostname=broker)
             self.textBrowser.append('%s : LOCATION SETTING DONE %s'%(ctime(),str(LOCATION)))
             self.L.close()
@@ -782,6 +787,7 @@ if __name__ == "__main__":
     DSP_TEMP = manager.list(['Wait' for i in range(5)])
     RT_INDEX = [[],[],[],[],[]]
     FLOW_DATA =[[None for i in range(5)],[None for i in range(5)],[None for i in range(5)],[None for i in range(5)],[None for i in range(5)]]
+    COLOR_SET = [pg.mkPen(color=(0,255,0),width=1),pg.mkPen(color=(255,0,0),width=1),pg.mkPen(color=(0,0,255),width=1),pg.mkPen(color=(255,255,0),width=1),pg.mkPen(color=(0,255,255),width=1)]
 
     try:
         p1 = Process(target=Multi_Calc,args=(LOCATION,MultiProc_Que,ProcessingQue,SET_INDEX,RECV_INDEX,DSPEN,TRXPSEN,TRXCSEN,MNTIN,DC12VMNT,BOARD_TEMP,RTS_TEMP,RTS_DEPTH,DSP_TEMP),daemon=True)
@@ -813,3 +819,4 @@ if __name__ == "__main__":
         
     except Exception as e:
         print(e)
+        print("3")
