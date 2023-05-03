@@ -9,7 +9,7 @@ import paho.mqtt.subscribe as subscribe
 import paho.mqtt.publish as publish
 import time
 import pyqtgraph as pg
-from TOMO_COSTAL_KW_v1 import Ui_MainWindow
+from TOMO_COSTAL_KW_v2 import Ui_MainWindow
 import numpy as np
 from time import ctime
 from haversine import haversine
@@ -48,7 +48,8 @@ def Multi_Calc(LOC,read_que,send_que,set_location,location,DSPEN,TRXPSEN,TRXCSEN
                     send_que.put(list(map(int,Data)))
                 else:
                     send_que.put('Error_RECV')
-            except:
+            except Exception as e:
+                print(e)
                 send_que.put('Error_RECV')
         time.sleep(0.1)
 
@@ -212,8 +213,6 @@ class Q_TimeSet(QThread):
         select_hour = (select_hour+(select_min+Interval)//60)%24
         select_min = (select_min+Interval)%60
         
-        # time.sleep(0.1)
-
         if Index_Number == len(Axis_data)-1:
             Index_Number = -1
         Index_Number+=1
@@ -232,12 +231,13 @@ class Q_DATAREAD(QThread): # SUBSCRIBE DATA READ
         Compare_Data = LOCATION[Index_Number-1]
         while True:
             m = subscribe.simple(self.topic,hostname=broker,keepalive=20)
-            # if int(Dt.decode()[0]) == Compare_Data:
+
             MultiProc_Que.put(m.payload)
 
 class Process_Function(QThread): ## MAIN QUEUE BUFFER
     DT_SEND = Signal(str)
     CL_TEXT = Signal(str)
+    UPDATE_LED = Signal(str)
     def __init__(self,parent):
         super().__init__()
         self.parent = parent
@@ -249,6 +249,7 @@ class Process_Function(QThread): ## MAIN QUEUE BUFFER
                 Data = ProcessingQue.get()
                 if Data == 'TimeSet': 
                     Thread_Working = True
+                    self.parent._QTimeSet.terminate()
                     self.parent._QTimeSet.start()
                 elif Data == 'Stop':
                     Thread_Working = False
@@ -279,15 +280,20 @@ class Process_Function(QThread): ## MAIN QUEUE BUFFER
                         DATA_TIME[RECV_INDEX.value].append(datetime.now())
                         DATA_TEMP[RECV_INDEX.value].append(RTS_TEMP.value)
                         DATA_DEPTH[RECV_INDEX.value].append(RTS_DEPTH.value)
-                    
-                    if DATA_TEMP[RECV_INDEX.value][-1]>=60:
-                        self.parent.textBrowser.append('%s : STATION %s - %s ℃ DATA_TEMP ERROR'%(ctime(),RECV_INDEX.value+1,str(DATA_TEMP[RECV_INDEX.value][-1])))
-                    if BOARD_TEMP[RECV_INDEX.value]>=60:
-                        self.parent.textBrowser.append('%s : STATION %s - %s ℃ BOARD_TEMP ERROR'%(ctime(),RECV_INDEX.value+1,str(BOARD_TEMP[RECV_INDEX.value])))
-                    if DSP_TEMP[RECV_INDEX.value]>=60:
-                        self.parent.textBrowser.append('%s : STATION %s - %s ℃ DSP_TEMP ERROR'%(ctime(),RECV_INDEX.value+1,str(DSP_TEMP[RECV_INDEX.value])))
 
                     RTS_READ_Que.put('DATA_READ')
+                    
+                    if BOARD_TEMP[RECV_INDEX.value]>=60:
+                        self.parent.textBrowser.append('%s : STATION %s - %s ℃ BOARD_TEMP ERROR'%(ctime(),RECV_INDEX.value+1,str(BOARD_TEMP[RECV_INDEX.value])))
+                        self.UPDATE_LED.emit('%s ERR_BOARD_TEMP'%RECV_INDEX.value)
+                    else:
+                        self.UPDATE_LED.emit('%s NOR_BOARD_TEMP'%RECV_INDEX.value)
+                    if DSP_TEMP[RECV_INDEX.value]>=60:
+                        self.parent.textBrowser.append('%s : STATION %s - %s ℃ DSP_TEMP ERROR'%(ctime(),RECV_INDEX.value+1,str(DSP_TEMP[RECV_INDEX.value])))
+                        self.UPDATE_LED.emit('%s ERR_DSP_TEMP'%RECV_INDEX.value)
+                    else:
+                        self.UPDATE_LED.emit('%s NOR_DSP_TEMP'%RECV_INDEX.value)
+
                 elif Data == 'RECV_ETC': # ETC DATA
                     VERSION_Que.put(Data)
                     self.parent.VERSION_UPDATE.start()
@@ -464,8 +470,8 @@ class Map_READ(QDialog): # 지도 업데이트
                         Xe = (GPS[LOCATION[LOCATION.index(RECV_INDEX.value+1)-1]-1][0]+GPS[SET_INDEX.value][0]+GPS[RECV_INDEX.value][0])/3
                         Yn = (GPS[LOCATION[LOCATION.index(RECV_INDEX.value+1)-1]-1][1]+GPS[SET_INDEX.value][1]+GPS[RECV_INDEX.value][1])/3
 
-                        # self.plt.quiver(Xe,Yn,Ve,Vn,scale=1,scale_units='xy')
-                        self.plt.quiver(Xe,Yn,Ve,Vn)
+                        self.plt.quiver(Xe,Yn,Ve,Vn,scale=1,scale_units='xy')
+                        # self.plt.quiver(Xe,Yn,Ve,Vn)
                 except:
                     Xe = (GPS[LOCATION[LOCATION.index(RECV_INDEX.value+1)-1]-1][0]+GPS[SET_INDEX.value][0]+GPS[RECV_INDEX.value][0])/3
                     Yn = (GPS[LOCATION[LOCATION.index(RECV_INDEX.value+1)-1]-1][1]+GPS[SET_INDEX.value][1]+GPS[RECV_INDEX.value][1])/3
@@ -533,6 +539,7 @@ class WindowClass(QMainWindow,Ui_MainWindow):
         self._Worker.SendData.connect(self.Setting_Axis)
         self._ProcessFunc.DT_SEND.connect(self.DATA_UPDATE)
         self._ProcessFunc.CL_TEXT.connect(self.CLEAR_TEXT)
+        self._ProcessFunc.UPDATE_LED.connect(self.Update_LED)
         self._Worker.start()
         self._ProcessFunc.start()
         ''''''
@@ -546,6 +553,11 @@ class WindowClass(QMainWindow,Ui_MainWindow):
         self.pushButton_6.clicked.connect(self._TEDE_OPEN)
         self.pushButton_7.clicked.connect(self.DISTANCE_CHECK)
         self.pushButton_9.clicked.connect(self.READ_Map)
+
+        '''ALERT_LED'''
+        self.BOARD_ALERT_LED = [self.BOARD_LED_1,self.BOARD_LED_2,self.BOARD_LED_3,self.BOARD_LED_4,self.BOARD_LED_5]
+        self.DSP_ALERT_LED = [self.DSP_LED_1,self.DSP_LED_2,self.DSP_LED_3,self.DSP_LED_4,self.DSP_LED_5]
+        ''''''
     
     @Slot(int)
     def Setting_Axis(self,Length):
@@ -737,6 +749,17 @@ class WindowClass(QMainWindow,Ui_MainWindow):
     def CLEAR_TEXT(self,Dt):
         self.textBrowser.clear()
 
+    @Slot(str)
+    def Update_LED(self,dt):
+        if 'ERR_BOARD_TEMP' in dt:
+            self.BOARD_ALERT_LED[int(dt.split()[0])].setStyleSheet("background-color:Red")
+        elif 'NOR_BOARD_TEMP' in dt:
+            self.BOARD_ALERT_LED[int(dt.split()[0])].setStyleSheet("background-color:Lime")
+        elif 'ERR_DSP_TEMP' in dt:
+            self.DSP_ALERT_LED[int(dt.split()[0])].setStyleSheet("background-color:Red")
+        elif 'NOR_DSP_TEMP' in dt:
+            self.DSP_ALERT_LED[int(dt.split()[0])].setStyleSheet("background-color:Lime")
+
 if __name__ == "__main__":
 
     freeze_support()
@@ -783,6 +806,8 @@ if __name__ == "__main__":
     RT_INDEX = [[],[],[],[],[]]
     FLOW_DATA =[[None for i in range(5)],[None for i in range(5)],[None for i in range(5)],[None for i in range(5)],[None for i in range(5)]]
     COLOR_SET = [pg.mkPen(color=(0,255,0),width=1),pg.mkPen(color=(255,0,0),width=1),pg.mkPen(color=(0,0,255),width=1),pg.mkPen(color=(255,255,0),width=1),pg.mkPen(color=(0,255,255),width=1)]
+    BOARD_LED = [0 for i in range(5)]
+    DSP_LED = [0 for i in range(5)]
 
     try:
         p1 = Process(target=Multi_Calc,args=(LOCATION,MultiProc_Que,ProcessingQue,SET_INDEX,RECV_INDEX,DSPEN,TRXPSEN,TRXCSEN,MNTIN,DC12VMNT,BOARD_TEMP,RTS_TEMP,RTS_DEPTH,DSP_TEMP),daemon=True)

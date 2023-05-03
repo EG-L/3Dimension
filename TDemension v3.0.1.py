@@ -670,26 +670,29 @@ class WindowClass(QMainWindow,Ui_MainWindow):
         Dis_Dat = 0 # 거리 데이터
         Flow_DT = 0 # 속도 데이터
 
-        if GPS[RECV_INDEX.value] != [0,0] and GPS[SET_INDEX.value] != [0,0] and len(RT_data[SET_INDEX.value])!=0 and len(RT_data[RECV_INDEX.value])!=0:
-            if LOCATION[LOCATION.index(RECV_INDEX.value+1)] == LOCATION[LOCATION.index(SET_INDEX.value+1)-1]: #gps의 값이 0,0이 아니면
-                Dis_Dat = int(haversine(GPS[RECV_INDEX.value][::-1],GPS[SET_INDEX.value][::-1],unit='m'))
-                DISTANCE[RECV_INDEX.value][SET_INDEX.value],DISTANCE[SET_INDEX.value][RECV_INDEX.value] = Dis_Dat,Dis_Dat
-                self.textBrowser.append('STATION %s - STATION %s : %s m '%(SET_INDEX.value+1,RECV_INDEX.value+1,Dis_Dat))
-                t1 = (RT_INDEX[SET_INDEX.value][-1]+2000-OrderNumber)/22000
-                t2 = (RT_INDEX[RECV_INDEX.value][-1]+2000-OrderNumber)/22000
-                Flow_DT = (Dis_Dat/2)*((1/t1)-(1/t2))
-                FLOW_DATA[SET_INDEX.value][RECV_INDEX.value],FLOW_DATA[RECV_INDEX.value][SET_INDEX.value] = Flow_DT,Flow_DT
-                self.textBrowser.append('Flow Velocity : %s m/s'%Flow_DT)
+        try:
+            if GPS[RECV_INDEX.value] != [0,0] and GPS[SET_INDEX.value] != [0,0] and len(RT_data[SET_INDEX.value])!=0 and len(RT_data[RECV_INDEX.value])!=0:
+                if LOCATION[LOCATION.index(RECV_INDEX.value+1)] == LOCATION[LOCATION.index(SET_INDEX.value+1)-1]: #gps의 값이 0,0이 아니면
+                    Dis_Dat = int(haversine(GPS[RECV_INDEX.value][::-1],GPS[SET_INDEX.value][::-1],unit='m'))
+                    DISTANCE[RECV_INDEX.value][SET_INDEX.value],DISTANCE[SET_INDEX.value][RECV_INDEX.value] = Dis_Dat,Dis_Dat
+                    self.textBrowser.append('STATION %s - STATION %s : %s m '%(SET_INDEX.value+1,RECV_INDEX.value+1,Dis_Dat))
+                    t1 = (RT_INDEX[SET_INDEX.value][-1]+2000-OrderNumber)/22000
+                    t2 = (RT_INDEX[RECV_INDEX.value][-1]+2000-OrderNumber)/22000
+                    Flow_DT = (Dis_Dat/2)*((1/t1)-(1/t2))
+                    FLOW_DATA[SET_INDEX.value][RECV_INDEX.value],FLOW_DATA[RECV_INDEX.value][SET_INDEX.value] = Flow_DT,Flow_DT
+                    self.textBrowser.append('Flow Velocity : %s m/s'%Flow_DT)
 
-                if len(LOCATION) >= 3:
-                    if FLOW_DATA[LOCATION[LOCATION.index(RECV_INDEX.value+1)-2]][LOCATION[LOCATION.index(RECV_INDEX.value+1)-3]] != None and FLOW_DATA[LOCATION[LOCATION.index(RECV_INDEX.value+1)-3]][LOCATION[LOCATION.index(RECV_INDEX.value+1)-2]] != None:
-                        FLOW_DATA[LOCATION[LOCATION.index(RECV_INDEX.value+1)-2]][LOCATION[LOCATION.index(RECV_INDEX.value+1)-3]],FLOW_DATA[LOCATION[LOCATION.index(RECV_INDEX.value+1)-3]][LOCATION[LOCATION.index(RECV_INDEX.value+1)-2]] = None,None
-                
-                ProcessingQue.put('RECV_MAP')
+                    if len(LOCATION) >= 3:
+                        if FLOW_DATA[LOCATION[LOCATION.index(RECV_INDEX.value+1)-2]][LOCATION[LOCATION.index(RECV_INDEX.value+1)-3]] != None and FLOW_DATA[LOCATION[LOCATION.index(RECV_INDEX.value+1)-3]][LOCATION[LOCATION.index(RECV_INDEX.value+1)-2]] != None:
+                            FLOW_DATA[LOCATION[LOCATION.index(RECV_INDEX.value+1)-2]][LOCATION[LOCATION.index(RECV_INDEX.value+1)-3]],FLOW_DATA[LOCATION[LOCATION.index(RECV_INDEX.value+1)-3]][LOCATION[LOCATION.index(RECV_INDEX.value+1)-2]] = None,None
+                    
+                    ProcessingQue.put('RECV_MAP')
 
-        SORTED_INDEX = sorted(LOCATION)
-        Axis_data[SORTED_INDEX.index(RECV_INDEX.value+1)].plot(RT_data[RECV_INDEX.value],clear=True,pen=COLOR_SET[RECV_INDEX.value])
-        Axis_data[SORTED_INDEX.index(RECV_INDEX.value+1)].setXRange(RT_INDEX[RECV_INDEX.value][-1],RT_INDEX[RECV_INDEX.value][-1]+4000)
+            SORTED_INDEX = sorted(LOCATION)
+            Axis_data[SORTED_INDEX.index(RECV_INDEX.value+1)].plot(RT_data[RECV_INDEX.value],clear=True,pen=COLOR_SET[RECV_INDEX.value])
+            Axis_data[SORTED_INDEX.index(RECV_INDEX.value+1)].setXRange(RT_INDEX[RECV_INDEX.value][-1],RT_INDEX[RECV_INDEX.value][-1]+4000)
+        except Exception as e:
+            self.textBrowser.append(str(e))
 
     def LOLA_READ(self): #LONGITUDE LATITUDE SHOW LOG
         global GPS

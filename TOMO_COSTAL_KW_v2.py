@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1147, 671)
+        MainWindow.resize(1147, 673)
         icon = QIcon()
         icon.addFile(u"../SSS_KW/kyungwon.ico", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -541,7 +541,7 @@ class Ui_MainWindow(object):
 
         self.BOARD_LED_1 = QLabel(self.centralwidget)
         self.BOARD_LED_1.setObjectName(u"BOARD_LED_1")
-        self.BOARD_LED_1.setStyleSheet(u"background-color: rgb(255, 0, 0);")
+        self.BOARD_LED_1.setStyleSheet(u"background-color: Lime;")
 
         self.verticalLayout_19.addWidget(self.BOARD_LED_1)
 
@@ -562,7 +562,7 @@ class Ui_MainWindow(object):
 
         self.DSP_LED_1 = QLabel(self.centralwidget)
         self.DSP_LED_1.setObjectName(u"DSP_LED_1")
-        self.DSP_LED_1.setStyleSheet(u"background-color: rgb(255, 0, 0);")
+        self.DSP_LED_1.setStyleSheet(u"background-color: Lime;")
 
         self.verticalLayout_18.addWidget(self.DSP_LED_1)
 
@@ -604,7 +604,7 @@ class Ui_MainWindow(object):
 
         self.BOARD_LED_2 = QLabel(self.centralwidget)
         self.BOARD_LED_2.setObjectName(u"BOARD_LED_2")
-        self.BOARD_LED_2.setStyleSheet(u"background-color: rgb(255, 0, 0);")
+        self.BOARD_LED_2.setStyleSheet(u"background-color: Lime;")
 
         self.verticalLayout_22.addWidget(self.BOARD_LED_2)
 
@@ -625,7 +625,7 @@ class Ui_MainWindow(object):
 
         self.DSP_LED_2 = QLabel(self.centralwidget)
         self.DSP_LED_2.setObjectName(u"DSP_LED_2")
-        self.DSP_LED_2.setStyleSheet(u"background-color: rgb(255, 0, 0);")
+        self.DSP_LED_2.setStyleSheet(u"background-color: Lime;")
 
         self.verticalLayout_21.addWidget(self.DSP_LED_2)
 
@@ -667,7 +667,7 @@ class Ui_MainWindow(object):
 
         self.BOARD_LED_3 = QLabel(self.centralwidget)
         self.BOARD_LED_3.setObjectName(u"BOARD_LED_3")
-        self.BOARD_LED_3.setStyleSheet(u"background-color: rgb(255, 0, 0);")
+        self.BOARD_LED_3.setStyleSheet(u"background-color: Lime;")
 
         self.verticalLayout_25.addWidget(self.BOARD_LED_3)
 
@@ -688,7 +688,7 @@ class Ui_MainWindow(object):
 
         self.DSP_LED_3 = QLabel(self.centralwidget)
         self.DSP_LED_3.setObjectName(u"DSP_LED_3")
-        self.DSP_LED_3.setStyleSheet(u"background-color: rgb(255, 0, 0);")
+        self.DSP_LED_3.setStyleSheet(u"background-color: Lime;")
 
         self.verticalLayout_24.addWidget(self.DSP_LED_3)
 
@@ -730,7 +730,7 @@ class Ui_MainWindow(object):
 
         self.BOARD_LED_4 = QLabel(self.centralwidget)
         self.BOARD_LED_4.setObjectName(u"BOARD_LED_4")
-        self.BOARD_LED_4.setStyleSheet(u"background-color: rgb(255, 0, 0);")
+        self.BOARD_LED_4.setStyleSheet(u"background-color: Lime;")
 
         self.verticalLayout_28.addWidget(self.BOARD_LED_4)
 
@@ -751,7 +751,7 @@ class Ui_MainWindow(object):
 
         self.DSP_LED_4 = QLabel(self.centralwidget)
         self.DSP_LED_4.setObjectName(u"DSP_LED_4")
-        self.DSP_LED_4.setStyleSheet(u"background-color: rgb(255, 0, 0);")
+        self.DSP_LED_4.setStyleSheet(u"background-color: Lime;")
 
         self.verticalLayout_27.addWidget(self.DSP_LED_4)
 
@@ -793,7 +793,7 @@ class Ui_MainWindow(object):
 
         self.BOARD_LED_5 = QLabel(self.centralwidget)
         self.BOARD_LED_5.setObjectName(u"BOARD_LED_5")
-        self.BOARD_LED_5.setStyleSheet(u"background-color: rgb(255, 0, 0);")
+        self.BOARD_LED_5.setStyleSheet(u"background-color: Lime;")
 
         self.verticalLayout_31.addWidget(self.BOARD_LED_5)
 
@@ -814,7 +814,7 @@ class Ui_MainWindow(object):
 
         self.DSP_LED_5 = QLabel(self.centralwidget)
         self.DSP_LED_5.setObjectName(u"DSP_LED_5")
-        self.DSP_LED_5.setStyleSheet(u"background-color: rgb(255, 0, 0);")
+        self.DSP_LED_5.setStyleSheet(u"background-color: Lime;")
 
         self.verticalLayout_30.addWidget(self.DSP_LED_5)
 
