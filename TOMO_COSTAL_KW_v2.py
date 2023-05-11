@@ -28,6 +28,356 @@ class Ui_MainWindow(object):
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
+        self.horizontalLayout_20 = QHBoxLayout()
+        self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
+        self.verticalLayout_17 = QVBoxLayout()
+        self.verticalLayout_17.setObjectName(u"verticalLayout_17")
+        self.label_6 = QLabel(self.centralwidget)
+        self.label_6.setObjectName(u"label_6")
+        self.label_6.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
+"color:rgb(255,255,255);\n"
+"border:1px solid rgba(255,255,255,255);\n"
+"padding-top:2px;\n"
+"padding-bottom:2px;")
+        self.label_6.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_17.addWidget(self.label_6)
+
+        self.horizontalLayout_21 = QHBoxLayout()
+        self.horizontalLayout_21.setObjectName(u"horizontalLayout_21")
+        self.verticalLayout_19 = QVBoxLayout()
+        self.verticalLayout_19.setObjectName(u"verticalLayout_19")
+        self.label_15 = QLabel(self.centralwidget)
+        self.label_15.setObjectName(u"label_15")
+        self.label_15.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
+"border:1px solid rgba(0,0,0,0);\n"
+"border-bottom-color:rgba(46,82,101,255);\n"
+"color:rgb(255,255,255);")
+        self.label_15.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_19.addWidget(self.label_15)
+
+        self.BOARD_LED_1 = QLabel(self.centralwidget)
+        self.BOARD_LED_1.setObjectName(u"BOARD_LED_1")
+        self.BOARD_LED_1.setStyleSheet(u"background-color: Lime;")
+
+        self.verticalLayout_19.addWidget(self.BOARD_LED_1)
+
+
+        self.horizontalLayout_21.addLayout(self.verticalLayout_19)
+
+        self.verticalLayout_18 = QVBoxLayout()
+        self.verticalLayout_18.setObjectName(u"verticalLayout_18")
+        self.label_16 = QLabel(self.centralwidget)
+        self.label_16.setObjectName(u"label_16")
+        self.label_16.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
+"border:1px solid rgba(0,0,0,0);\n"
+"border-bottom-color:rgba(46,82,101,255);\n"
+"color:rgb(255,255,255);")
+        self.label_16.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_18.addWidget(self.label_16)
+
+        self.DSP_LED_1 = QLabel(self.centralwidget)
+        self.DSP_LED_1.setObjectName(u"DSP_LED_1")
+        self.DSP_LED_1.setStyleSheet(u"background-color: Lime;")
+
+        self.verticalLayout_18.addWidget(self.DSP_LED_1)
+
+
+        self.horizontalLayout_21.addLayout(self.verticalLayout_18)
+
+
+        self.verticalLayout_17.addLayout(self.horizontalLayout_21)
+
+        self.label_7 = QLabel(self.centralwidget)
+        self.label_7.setObjectName(u"label_7")
+        self.label_7.setStyleSheet(u"background-color: Red;")
+
+        self.verticalLayout_17.addWidget(self.label_7)
+
+
+        self.horizontalLayout_20.addLayout(self.verticalLayout_17)
+
+        self.verticalLayout_16 = QVBoxLayout()
+        self.verticalLayout_16.setObjectName(u"verticalLayout_16")
+        self.label_5 = QLabel(self.centralwidget)
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
+"color:rgb(255,255,255);\n"
+"border:1px solid rgba(255,255,255,255);\n"
+"padding-top:2px;\n"
+"padding-bottom:2px;")
+        self.label_5.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_16.addWidget(self.label_5)
+
+        self.horizontalLayout_22 = QHBoxLayout()
+        self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
+        self.verticalLayout_22 = QVBoxLayout()
+        self.verticalLayout_22.setObjectName(u"verticalLayout_22")
+        self.label_20 = QLabel(self.centralwidget)
+        self.label_20.setObjectName(u"label_20")
+        self.label_20.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
+"border:1px solid rgba(0,0,0,0);\n"
+"border-bottom-color:rgba(46,82,101,255);\n"
+"color:rgb(255,255,255);")
+        self.label_20.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_22.addWidget(self.label_20)
+
+        self.BOARD_LED_2 = QLabel(self.centralwidget)
+        self.BOARD_LED_2.setObjectName(u"BOARD_LED_2")
+        self.BOARD_LED_2.setStyleSheet(u"background-color: Lime;")
+
+        self.verticalLayout_22.addWidget(self.BOARD_LED_2)
+
+
+        self.horizontalLayout_22.addLayout(self.verticalLayout_22)
+
+        self.verticalLayout_21 = QVBoxLayout()
+        self.verticalLayout_21.setObjectName(u"verticalLayout_21")
+        self.label_21 = QLabel(self.centralwidget)
+        self.label_21.setObjectName(u"label_21")
+        self.label_21.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
+"border:1px solid rgba(0,0,0,0);\n"
+"border-bottom-color:rgba(46,82,101,255);\n"
+"color:rgb(255,255,255);")
+        self.label_21.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_21.addWidget(self.label_21)
+
+        self.DSP_LED_2 = QLabel(self.centralwidget)
+        self.DSP_LED_2.setObjectName(u"DSP_LED_2")
+        self.DSP_LED_2.setStyleSheet(u"background-color: Lime;")
+
+        self.verticalLayout_21.addWidget(self.DSP_LED_2)
+
+
+        self.horizontalLayout_22.addLayout(self.verticalLayout_21)
+
+
+        self.verticalLayout_16.addLayout(self.horizontalLayout_22)
+
+        self.label_9 = QLabel(self.centralwidget)
+        self.label_9.setObjectName(u"label_9")
+        self.label_9.setStyleSheet(u"background-color: Red;")
+
+        self.verticalLayout_16.addWidget(self.label_9)
+
+
+        self.horizontalLayout_20.addLayout(self.verticalLayout_16)
+
+        self.verticalLayout_15 = QVBoxLayout()
+        self.verticalLayout_15.setObjectName(u"verticalLayout_15")
+        self.label_4 = QLabel(self.centralwidget)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
+"color:rgb(255,255,255);\n"
+"border:1px solid rgba(255,255,255,255);\n"
+"padding-top:2px;\n"
+"padding-bottom:2px;")
+        self.label_4.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_15.addWidget(self.label_4)
+
+        self.horizontalLayout_23 = QHBoxLayout()
+        self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
+        self.verticalLayout_25 = QVBoxLayout()
+        self.verticalLayout_25.setObjectName(u"verticalLayout_25")
+        self.label_25 = QLabel(self.centralwidget)
+        self.label_25.setObjectName(u"label_25")
+        self.label_25.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
+"border:1px solid rgba(0,0,0,0);\n"
+"border-bottom-color:rgba(46,82,101,255);\n"
+"color:rgb(255,255,255);")
+        self.label_25.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_25.addWidget(self.label_25)
+
+        self.BOARD_LED_3 = QLabel(self.centralwidget)
+        self.BOARD_LED_3.setObjectName(u"BOARD_LED_3")
+        self.BOARD_LED_3.setStyleSheet(u"background-color: Lime;")
+
+        self.verticalLayout_25.addWidget(self.BOARD_LED_3)
+
+
+        self.horizontalLayout_23.addLayout(self.verticalLayout_25)
+
+        self.verticalLayout_24 = QVBoxLayout()
+        self.verticalLayout_24.setObjectName(u"verticalLayout_24")
+        self.label_26 = QLabel(self.centralwidget)
+        self.label_26.setObjectName(u"label_26")
+        self.label_26.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
+"border:1px solid rgba(0,0,0,0);\n"
+"border-bottom-color:rgba(46,82,101,255);\n"
+"color:rgb(255,255,255);")
+        self.label_26.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_24.addWidget(self.label_26)
+
+        self.DSP_LED_3 = QLabel(self.centralwidget)
+        self.DSP_LED_3.setObjectName(u"DSP_LED_3")
+        self.DSP_LED_3.setStyleSheet(u"background-color: Lime;")
+
+        self.verticalLayout_24.addWidget(self.DSP_LED_3)
+
+
+        self.horizontalLayout_23.addLayout(self.verticalLayout_24)
+
+
+        self.verticalLayout_15.addLayout(self.horizontalLayout_23)
+
+        self.label_10 = QLabel(self.centralwidget)
+        self.label_10.setObjectName(u"label_10")
+        self.label_10.setStyleSheet(u"background-color: Red;")
+
+        self.verticalLayout_15.addWidget(self.label_10)
+
+
+        self.horizontalLayout_20.addLayout(self.verticalLayout_15)
+
+        self.verticalLayout_12 = QVBoxLayout()
+        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
+        self.label_3 = QLabel(self.centralwidget)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
+"color:rgb(255,255,255);\n"
+"border:1px solid rgba(255,255,255,255);\n"
+"padding-top:2px;\n"
+"padding-bottom:2px;")
+        self.label_3.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_12.addWidget(self.label_3)
+
+        self.horizontalLayout_24 = QHBoxLayout()
+        self.horizontalLayout_24.setObjectName(u"horizontalLayout_24")
+        self.verticalLayout_28 = QVBoxLayout()
+        self.verticalLayout_28.setObjectName(u"verticalLayout_28")
+        self.label_29 = QLabel(self.centralwidget)
+        self.label_29.setObjectName(u"label_29")
+        self.label_29.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
+"border:1px solid rgba(0,0,0,0);\n"
+"border-bottom-color:rgba(46,82,101,255);\n"
+"color:rgb(255,255,255);")
+        self.label_29.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_28.addWidget(self.label_29)
+
+        self.BOARD_LED_4 = QLabel(self.centralwidget)
+        self.BOARD_LED_4.setObjectName(u"BOARD_LED_4")
+        self.BOARD_LED_4.setStyleSheet(u"background-color: Lime;")
+
+        self.verticalLayout_28.addWidget(self.BOARD_LED_4)
+
+
+        self.horizontalLayout_24.addLayout(self.verticalLayout_28)
+
+        self.verticalLayout_27 = QVBoxLayout()
+        self.verticalLayout_27.setObjectName(u"verticalLayout_27")
+        self.label_30 = QLabel(self.centralwidget)
+        self.label_30.setObjectName(u"label_30")
+        self.label_30.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
+"border:1px solid rgba(0,0,0,0);\n"
+"border-bottom-color:rgba(46,82,101,255);\n"
+"color:rgb(255,255,255);")
+        self.label_30.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_27.addWidget(self.label_30)
+
+        self.DSP_LED_4 = QLabel(self.centralwidget)
+        self.DSP_LED_4.setObjectName(u"DSP_LED_4")
+        self.DSP_LED_4.setStyleSheet(u"background-color: Lime;")
+
+        self.verticalLayout_27.addWidget(self.DSP_LED_4)
+
+
+        self.horizontalLayout_24.addLayout(self.verticalLayout_27)
+
+
+        self.verticalLayout_12.addLayout(self.horizontalLayout_24)
+
+        self.label_11 = QLabel(self.centralwidget)
+        self.label_11.setObjectName(u"label_11")
+        self.label_11.setStyleSheet(u"background-color: Red;")
+
+        self.verticalLayout_12.addWidget(self.label_11)
+
+
+        self.horizontalLayout_20.addLayout(self.verticalLayout_12)
+
+        self.verticalLayout_11 = QVBoxLayout()
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.label_2 = QLabel(self.centralwidget)
+        self.label_2.setObjectName(u"label_2")
+        self.label_2.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
+"color:rgb(255,255,255);\n"
+"border:1px solid rgba(255,255,255,255);\n"
+"padding-top:2px;\n"
+"padding-bottom:2px;")
+        self.label_2.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_11.addWidget(self.label_2)
+
+        self.horizontalLayout_25 = QHBoxLayout()
+        self.horizontalLayout_25.setObjectName(u"horizontalLayout_25")
+        self.verticalLayout_31 = QVBoxLayout()
+        self.verticalLayout_31.setObjectName(u"verticalLayout_31")
+        self.label_34 = QLabel(self.centralwidget)
+        self.label_34.setObjectName(u"label_34")
+        self.label_34.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
+"border:1px solid rgba(0,0,0,0);\n"
+"border-bottom-color:rgba(46,82,101,255);\n"
+"color:rgb(255,255,255);")
+        self.label_34.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_31.addWidget(self.label_34)
+
+        self.BOARD_LED_5 = QLabel(self.centralwidget)
+        self.BOARD_LED_5.setObjectName(u"BOARD_LED_5")
+        self.BOARD_LED_5.setStyleSheet(u"background-color: Lime;")
+
+        self.verticalLayout_31.addWidget(self.BOARD_LED_5)
+
+
+        self.horizontalLayout_25.addLayout(self.verticalLayout_31)
+
+        self.verticalLayout_30 = QVBoxLayout()
+        self.verticalLayout_30.setObjectName(u"verticalLayout_30")
+        self.label_35 = QLabel(self.centralwidget)
+        self.label_35.setObjectName(u"label_35")
+        self.label_35.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
+"border:1px solid rgba(0,0,0,0);\n"
+"border-bottom-color:rgba(46,82,101,255);\n"
+"color:rgb(255,255,255);")
+        self.label_35.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_30.addWidget(self.label_35)
+
+        self.DSP_LED_5 = QLabel(self.centralwidget)
+        self.DSP_LED_5.setObjectName(u"DSP_LED_5")
+        self.DSP_LED_5.setStyleSheet(u"background-color: Lime;")
+
+        self.verticalLayout_30.addWidget(self.DSP_LED_5)
+
+
+        self.horizontalLayout_25.addLayout(self.verticalLayout_30)
+
+
+        self.verticalLayout_11.addLayout(self.horizontalLayout_25)
+
+        self.label_12 = QLabel(self.centralwidget)
+        self.label_12.setObjectName(u"label_12")
+        self.label_12.setStyleSheet(u"background-color: Red;")
+
+        self.verticalLayout_11.addWidget(self.label_12)
+
+
+        self.horizontalLayout_20.addLayout(self.verticalLayout_11)
+
+
+        self.gridLayout.addLayout(self.horizontalLayout_20, 2, 1, 1, 2)
+
         self.splitter = QSplitter(self.centralwidget)
         self.splitter.setObjectName(u"splitter")
         self.splitter.setOrientation(Qt.Horizontal)
@@ -136,20 +486,6 @@ class Ui_MainWindow(object):
         self.splitter.addWidget(self.layoutWidget_3)
 
         self.gridLayout.addWidget(self.splitter, 1, 2, 1, 1)
-
-        self.label = QLabel(self.centralwidget)
-        self.label.setObjectName(u"label")
-        self.label.setStyleSheet(u"border-color: white;\n"
-"border-style:solid;\n"
-"border-width:1px;\n"
-"background-color:rgba(0,0,0,0);\n"
-"border:1px solid rgba(0,0,0,0);\n"
-"border-bottom-color:rgba(46,82,101,255);\n"
-"color:rgb(255,255,255);\n"
-"padding-bottom:7px;")
-        self.label.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout.addWidget(self.label, 0, 1, 1, 2)
 
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
@@ -510,325 +846,19 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addLayout(self.verticalLayout, 1, 1, 1, 1)
 
-        self.horizontalLayout_20 = QHBoxLayout()
-        self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
-        self.verticalLayout_17 = QVBoxLayout()
-        self.verticalLayout_17.setObjectName(u"verticalLayout_17")
-        self.label_6 = QLabel(self.centralwidget)
-        self.label_6.setObjectName(u"label_6")
-        self.label_6.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
+        self.label = QLabel(self.centralwidget)
+        self.label.setObjectName(u"label")
+        self.label.setStyleSheet(u"border-color: white;\n"
+"border-style:solid;\n"
+"border-width:1px;\n"
+"background-color:rgba(0,0,0,0);\n"
+"border:1px solid rgba(0,0,0,0);\n"
+"border-bottom-color:rgba(46,82,101,255);\n"
 "color:rgb(255,255,255);\n"
-"border:1px solid rgba(255,255,255,255);\n"
-"padding-top:2px;\n"
-"padding-bottom:2px;")
-        self.label_6.setAlignment(Qt.AlignCenter)
+"padding-bottom:7px;")
+        self.label.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_17.addWidget(self.label_6)
-
-        self.horizontalLayout_21 = QHBoxLayout()
-        self.horizontalLayout_21.setObjectName(u"horizontalLayout_21")
-        self.verticalLayout_19 = QVBoxLayout()
-        self.verticalLayout_19.setObjectName(u"verticalLayout_19")
-        self.label_15 = QLabel(self.centralwidget)
-        self.label_15.setObjectName(u"label_15")
-        self.label_15.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
-"border:1px solid rgba(0,0,0,0);\n"
-"border-bottom-color:rgba(46,82,101,255);\n"
-"color:rgb(255,255,255);")
-        self.label_15.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_19.addWidget(self.label_15)
-
-        self.BOARD_LED_1 = QLabel(self.centralwidget)
-        self.BOARD_LED_1.setObjectName(u"BOARD_LED_1")
-        self.BOARD_LED_1.setStyleSheet(u"background-color: Lime;")
-
-        self.verticalLayout_19.addWidget(self.BOARD_LED_1)
-
-
-        self.horizontalLayout_21.addLayout(self.verticalLayout_19)
-
-        self.verticalLayout_18 = QVBoxLayout()
-        self.verticalLayout_18.setObjectName(u"verticalLayout_18")
-        self.label_16 = QLabel(self.centralwidget)
-        self.label_16.setObjectName(u"label_16")
-        self.label_16.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
-"border:1px solid rgba(0,0,0,0);\n"
-"border-bottom-color:rgba(46,82,101,255);\n"
-"color:rgb(255,255,255);")
-        self.label_16.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_18.addWidget(self.label_16)
-
-        self.DSP_LED_1 = QLabel(self.centralwidget)
-        self.DSP_LED_1.setObjectName(u"DSP_LED_1")
-        self.DSP_LED_1.setStyleSheet(u"background-color: Lime;")
-
-        self.verticalLayout_18.addWidget(self.DSP_LED_1)
-
-
-        self.horizontalLayout_21.addLayout(self.verticalLayout_18)
-
-
-        self.verticalLayout_17.addLayout(self.horizontalLayout_21)
-
-
-        self.horizontalLayout_20.addLayout(self.verticalLayout_17)
-
-        self.verticalLayout_16 = QVBoxLayout()
-        self.verticalLayout_16.setObjectName(u"verticalLayout_16")
-        self.label_5 = QLabel(self.centralwidget)
-        self.label_5.setObjectName(u"label_5")
-        self.label_5.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
-"color:rgb(255,255,255);\n"
-"border:1px solid rgba(255,255,255,255);\n"
-"padding-top:2px;\n"
-"padding-bottom:2px;")
-        self.label_5.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_16.addWidget(self.label_5)
-
-        self.horizontalLayout_22 = QHBoxLayout()
-        self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
-        self.verticalLayout_22 = QVBoxLayout()
-        self.verticalLayout_22.setObjectName(u"verticalLayout_22")
-        self.label_20 = QLabel(self.centralwidget)
-        self.label_20.setObjectName(u"label_20")
-        self.label_20.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
-"border:1px solid rgba(0,0,0,0);\n"
-"border-bottom-color:rgba(46,82,101,255);\n"
-"color:rgb(255,255,255);")
-        self.label_20.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_22.addWidget(self.label_20)
-
-        self.BOARD_LED_2 = QLabel(self.centralwidget)
-        self.BOARD_LED_2.setObjectName(u"BOARD_LED_2")
-        self.BOARD_LED_2.setStyleSheet(u"background-color: Lime;")
-
-        self.verticalLayout_22.addWidget(self.BOARD_LED_2)
-
-
-        self.horizontalLayout_22.addLayout(self.verticalLayout_22)
-
-        self.verticalLayout_21 = QVBoxLayout()
-        self.verticalLayout_21.setObjectName(u"verticalLayout_21")
-        self.label_21 = QLabel(self.centralwidget)
-        self.label_21.setObjectName(u"label_21")
-        self.label_21.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
-"border:1px solid rgba(0,0,0,0);\n"
-"border-bottom-color:rgba(46,82,101,255);\n"
-"color:rgb(255,255,255);")
-        self.label_21.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_21.addWidget(self.label_21)
-
-        self.DSP_LED_2 = QLabel(self.centralwidget)
-        self.DSP_LED_2.setObjectName(u"DSP_LED_2")
-        self.DSP_LED_2.setStyleSheet(u"background-color: Lime;")
-
-        self.verticalLayout_21.addWidget(self.DSP_LED_2)
-
-
-        self.horizontalLayout_22.addLayout(self.verticalLayout_21)
-
-
-        self.verticalLayout_16.addLayout(self.horizontalLayout_22)
-
-
-        self.horizontalLayout_20.addLayout(self.verticalLayout_16)
-
-        self.verticalLayout_15 = QVBoxLayout()
-        self.verticalLayout_15.setObjectName(u"verticalLayout_15")
-        self.label_4 = QLabel(self.centralwidget)
-        self.label_4.setObjectName(u"label_4")
-        self.label_4.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
-"color:rgb(255,255,255);\n"
-"border:1px solid rgba(255,255,255,255);\n"
-"padding-top:2px;\n"
-"padding-bottom:2px;")
-        self.label_4.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_15.addWidget(self.label_4)
-
-        self.horizontalLayout_23 = QHBoxLayout()
-        self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
-        self.verticalLayout_25 = QVBoxLayout()
-        self.verticalLayout_25.setObjectName(u"verticalLayout_25")
-        self.label_25 = QLabel(self.centralwidget)
-        self.label_25.setObjectName(u"label_25")
-        self.label_25.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
-"border:1px solid rgba(0,0,0,0);\n"
-"border-bottom-color:rgba(46,82,101,255);\n"
-"color:rgb(255,255,255);")
-        self.label_25.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_25.addWidget(self.label_25)
-
-        self.BOARD_LED_3 = QLabel(self.centralwidget)
-        self.BOARD_LED_3.setObjectName(u"BOARD_LED_3")
-        self.BOARD_LED_3.setStyleSheet(u"background-color: Lime;")
-
-        self.verticalLayout_25.addWidget(self.BOARD_LED_3)
-
-
-        self.horizontalLayout_23.addLayout(self.verticalLayout_25)
-
-        self.verticalLayout_24 = QVBoxLayout()
-        self.verticalLayout_24.setObjectName(u"verticalLayout_24")
-        self.label_26 = QLabel(self.centralwidget)
-        self.label_26.setObjectName(u"label_26")
-        self.label_26.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
-"border:1px solid rgba(0,0,0,0);\n"
-"border-bottom-color:rgba(46,82,101,255);\n"
-"color:rgb(255,255,255);")
-        self.label_26.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_24.addWidget(self.label_26)
-
-        self.DSP_LED_3 = QLabel(self.centralwidget)
-        self.DSP_LED_3.setObjectName(u"DSP_LED_3")
-        self.DSP_LED_3.setStyleSheet(u"background-color: Lime;")
-
-        self.verticalLayout_24.addWidget(self.DSP_LED_3)
-
-
-        self.horizontalLayout_23.addLayout(self.verticalLayout_24)
-
-
-        self.verticalLayout_15.addLayout(self.horizontalLayout_23)
-
-
-        self.horizontalLayout_20.addLayout(self.verticalLayout_15)
-
-        self.verticalLayout_12 = QVBoxLayout()
-        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
-        self.label_3 = QLabel(self.centralwidget)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
-"color:rgb(255,255,255);\n"
-"border:1px solid rgba(255,255,255,255);\n"
-"padding-top:2px;\n"
-"padding-bottom:2px;")
-        self.label_3.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_12.addWidget(self.label_3)
-
-        self.horizontalLayout_24 = QHBoxLayout()
-        self.horizontalLayout_24.setObjectName(u"horizontalLayout_24")
-        self.verticalLayout_28 = QVBoxLayout()
-        self.verticalLayout_28.setObjectName(u"verticalLayout_28")
-        self.label_29 = QLabel(self.centralwidget)
-        self.label_29.setObjectName(u"label_29")
-        self.label_29.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
-"border:1px solid rgba(0,0,0,0);\n"
-"border-bottom-color:rgba(46,82,101,255);\n"
-"color:rgb(255,255,255);")
-        self.label_29.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_28.addWidget(self.label_29)
-
-        self.BOARD_LED_4 = QLabel(self.centralwidget)
-        self.BOARD_LED_4.setObjectName(u"BOARD_LED_4")
-        self.BOARD_LED_4.setStyleSheet(u"background-color: Lime;")
-
-        self.verticalLayout_28.addWidget(self.BOARD_LED_4)
-
-
-        self.horizontalLayout_24.addLayout(self.verticalLayout_28)
-
-        self.verticalLayout_27 = QVBoxLayout()
-        self.verticalLayout_27.setObjectName(u"verticalLayout_27")
-        self.label_30 = QLabel(self.centralwidget)
-        self.label_30.setObjectName(u"label_30")
-        self.label_30.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
-"border:1px solid rgba(0,0,0,0);\n"
-"border-bottom-color:rgba(46,82,101,255);\n"
-"color:rgb(255,255,255);")
-        self.label_30.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_27.addWidget(self.label_30)
-
-        self.DSP_LED_4 = QLabel(self.centralwidget)
-        self.DSP_LED_4.setObjectName(u"DSP_LED_4")
-        self.DSP_LED_4.setStyleSheet(u"background-color: Lime;")
-
-        self.verticalLayout_27.addWidget(self.DSP_LED_4)
-
-
-        self.horizontalLayout_24.addLayout(self.verticalLayout_27)
-
-
-        self.verticalLayout_12.addLayout(self.horizontalLayout_24)
-
-
-        self.horizontalLayout_20.addLayout(self.verticalLayout_12)
-
-        self.verticalLayout_11 = QVBoxLayout()
-        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
-        self.label_2 = QLabel(self.centralwidget)
-        self.label_2.setObjectName(u"label_2")
-        self.label_2.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
-"color:rgb(255,255,255);\n"
-"border:1px solid rgba(255,255,255,255);\n"
-"padding-top:2px;\n"
-"padding-bottom:2px;")
-        self.label_2.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_11.addWidget(self.label_2)
-
-        self.horizontalLayout_25 = QHBoxLayout()
-        self.horizontalLayout_25.setObjectName(u"horizontalLayout_25")
-        self.verticalLayout_31 = QVBoxLayout()
-        self.verticalLayout_31.setObjectName(u"verticalLayout_31")
-        self.label_34 = QLabel(self.centralwidget)
-        self.label_34.setObjectName(u"label_34")
-        self.label_34.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
-"border:1px solid rgba(0,0,0,0);\n"
-"border-bottom-color:rgba(46,82,101,255);\n"
-"color:rgb(255,255,255);")
-        self.label_34.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_31.addWidget(self.label_34)
-
-        self.BOARD_LED_5 = QLabel(self.centralwidget)
-        self.BOARD_LED_5.setObjectName(u"BOARD_LED_5")
-        self.BOARD_LED_5.setStyleSheet(u"background-color: Lime;")
-
-        self.verticalLayout_31.addWidget(self.BOARD_LED_5)
-
-
-        self.horizontalLayout_25.addLayout(self.verticalLayout_31)
-
-        self.verticalLayout_30 = QVBoxLayout()
-        self.verticalLayout_30.setObjectName(u"verticalLayout_30")
-        self.label_35 = QLabel(self.centralwidget)
-        self.label_35.setObjectName(u"label_35")
-        self.label_35.setStyleSheet(u"background-color:rgba(0,0,0,0);\n"
-"border:1px solid rgba(0,0,0,0);\n"
-"border-bottom-color:rgba(46,82,101,255);\n"
-"color:rgb(255,255,255);")
-        self.label_35.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_30.addWidget(self.label_35)
-
-        self.DSP_LED_5 = QLabel(self.centralwidget)
-        self.DSP_LED_5.setObjectName(u"DSP_LED_5")
-        self.DSP_LED_5.setStyleSheet(u"background-color: Lime;")
-
-        self.verticalLayout_30.addWidget(self.DSP_LED_5)
-
-
-        self.horizontalLayout_25.addLayout(self.verticalLayout_30)
-
-
-        self.verticalLayout_11.addLayout(self.horizontalLayout_25)
-
-
-        self.horizontalLayout_20.addLayout(self.verticalLayout_11)
-
-
-        self.gridLayout.addLayout(self.horizontalLayout_20, 2, 1, 1, 2)
+        self.gridLayout.addWidget(self.label, 0, 1, 1, 2)
 
 
         self.horizontalLayout_17.addLayout(self.gridLayout)
@@ -847,9 +877,38 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"KW 3Dimension", None))
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"STATION 1 ALERT LED", None))
+        self.label_15.setText(QCoreApplication.translate("MainWindow", u"BOARD", None))
+        self.BOARD_LED_1.setText("")
+        self.label_16.setText(QCoreApplication.translate("MainWindow", u"DSP", None))
+        self.DSP_LED_1.setText("")
+        self.label_7.setText("")
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"STATION 2 ALERT LED", None))
+        self.label_20.setText(QCoreApplication.translate("MainWindow", u"BOARD", None))
+        self.BOARD_LED_2.setText("")
+        self.label_21.setText(QCoreApplication.translate("MainWindow", u"DSP", None))
+        self.DSP_LED_2.setText("")
+        self.label_9.setText("")
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"STATION 3 ALERT LED", None))
+        self.label_25.setText(QCoreApplication.translate("MainWindow", u"BOARD", None))
+        self.BOARD_LED_3.setText("")
+        self.label_26.setText(QCoreApplication.translate("MainWindow", u"DSP", None))
+        self.DSP_LED_3.setText("")
+        self.label_10.setText("")
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"STATION 4 ALERT LED", None))
+        self.label_29.setText(QCoreApplication.translate("MainWindow", u"BOARD", None))
+        self.BOARD_LED_4.setText("")
+        self.label_30.setText(QCoreApplication.translate("MainWindow", u"DSP", None))
+        self.DSP_LED_4.setText("")
+        self.label_11.setText("")
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"STATION 5 ALERT LED", None))
+        self.label_34.setText(QCoreApplication.translate("MainWindow", u"BOARD", None))
+        self.BOARD_LED_5.setText("")
+        self.label_35.setText(QCoreApplication.translate("MainWindow", u"DSP", None))
+        self.DSP_LED_5.setText("")
+        self.label_12.setText("")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"ALL", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Data Log", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-size:20pt; font-weight:600;\">3\ucc28\uc6d0 \ud574\uc218\uc720\ub3d9 GUI</span></p></body></html>", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"Schedule Control", None))
         self.lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"HOUR", None))
         self.lineEdit_2.setPlaceholderText(QCoreApplication.translate("MainWindow", u"MINUTE", None))
@@ -868,30 +927,6 @@ class Ui_MainWindow(object):
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Menual Start", None))
         self.pushButton_6.setText(QCoreApplication.translate("MainWindow", u"Temperature and Depth", None))
         self.pushButton_9.setText(QCoreApplication.translate("MainWindow", u"Map", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u"STATION 1 ALERT LED", None))
-        self.label_15.setText(QCoreApplication.translate("MainWindow", u"BOARD", None))
-        self.BOARD_LED_1.setText("")
-        self.label_16.setText(QCoreApplication.translate("MainWindow", u"DSP", None))
-        self.DSP_LED_1.setText("")
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"STATION 2 ALERT LED", None))
-        self.label_20.setText(QCoreApplication.translate("MainWindow", u"BOARD", None))
-        self.BOARD_LED_2.setText("")
-        self.label_21.setText(QCoreApplication.translate("MainWindow", u"DSP", None))
-        self.DSP_LED_2.setText("")
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"STATION 3 ALERT LED", None))
-        self.label_25.setText(QCoreApplication.translate("MainWindow", u"BOARD", None))
-        self.BOARD_LED_3.setText("")
-        self.label_26.setText(QCoreApplication.translate("MainWindow", u"DSP", None))
-        self.DSP_LED_3.setText("")
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"STATION 4 ALERT LED", None))
-        self.label_29.setText(QCoreApplication.translate("MainWindow", u"BOARD", None))
-        self.BOARD_LED_4.setText("")
-        self.label_30.setText(QCoreApplication.translate("MainWindow", u"DSP", None))
-        self.DSP_LED_4.setText("")
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"STATION 5 ALERT LED", None))
-        self.label_34.setText(QCoreApplication.translate("MainWindow", u"BOARD", None))
-        self.BOARD_LED_5.setText("")
-        self.label_35.setText(QCoreApplication.translate("MainWindow", u"DSP", None))
-        self.DSP_LED_5.setText("")
+        self.label.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-size:20pt; font-weight:600;\">3\ucc28\uc6d0 \ud574\uc218\uc720\ub3d9 GUI</span></p></body></html>", None))
     # retranslateUi
 

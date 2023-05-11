@@ -26,8 +26,8 @@ def Multi_Calc(LOC,read_que,send_que,set_location,location,DSPEN,TRXPSEN,TRXCSEN
             Dat = read_que.get()
             try:
                 Data = list(map(float,Dat.decode().split(',')))
-                set_location.value = int(Data.pop(0))-1
-                location.value = int(Data.pop(0))-1
+                set_location.value = int(Data.pop(0))-1 #송신 위치
+                location.value = int(Data.pop(0))-1 #수신 위치
 
                 if location.value+1 in LOC:
                     DSPEN[location.value] = Data.pop(0)
@@ -68,7 +68,6 @@ def Multi_GPS(send_que,GPS_DATA): # GPS UPDATE
             time.sleep(0.1)
         except Exception as e:
             print(e)
-            print("1")
             continue
 
 class QDialog_Setting(QDialog): ## SETTING
@@ -203,6 +202,7 @@ class Q_TimeSet(QThread):
         
         publish.single(self.topic,b'STOP,'+Dat+b',START',hostname=broker,keepalive=0)
 
+
         while True:
             if datetime.now().minute == select_min and datetime.now().hour == select_hour:
                 break
@@ -217,7 +217,7 @@ class Q_TimeSet(QThread):
             Index_Number = -1
         Index_Number+=1
 
-        self.parent.textBrowser.append('\n%s : %s WAIT STATION %s\n'%(ctime(),ORDER_STRING[OrderNumber],LOCATION[Index_Number]))
+
         ProcessingQue.put('TimeSet')
 
 class Q_DATAREAD(QThread): # SUBSCRIBE DATA READ
@@ -228,7 +228,11 @@ class Q_DATAREAD(QThread): # SUBSCRIBE DATA READ
 
     def run(self):
         global Axis_data,ProcessingQue,Index_Number,LOCATION,broker
-        Compare_Data = LOCATION[Index_Number-1]
+        
+        self.parent.textBrowser.append('\n%s : WORKING STATION %s\n'%(ctime(),LOCATION[Index_Number-1]))
+
+        ProcessingQue.put('%s DATA_LED'%str(LOCATION[Index_Number-1]-1))
+
         while True:
             m = subscribe.simple(self.topic,hostname=broker,keepalive=20)
 
@@ -327,13 +331,14 @@ class Process_Function(QThread): ## MAIN QUEUE BUFFER
                 elif Data == 'RECV_MAP':
                     recv_Map_Que.put('UPDATE_MAP')
 
-                elif Data == 'SENSOR_ON':
-                    VERSION_Que.put('SENSOR_ON')
-
                 elif Data == 'CLEAR_TEXT':
                     self.CL_TEXT.emit('CLEAR')
+
                 elif 'GPS_ERROR' in Data:
                     self.parent.textBrowser.append(Data)
+                    
+                elif 'DATA_LED' in Data:
+                    self.UPDATE_LED.emit(Data)
 
 class TEDE_UPDATE(QThread):
     Update_SEND = Signal(str)
@@ -347,7 +352,7 @@ class TEDE_UPDATE(QThread):
             if RTS_READ_Que.empty() != True:
                 RTS_READ_Que.get()
                 self.Update_SEND.emit('U')
-            time.sleep(1)
+            time.sleep(0.1)
 
 class QDialog_TEMP_DEPTH(QDialog):
     def __init__(self):
@@ -436,8 +441,6 @@ class Map_READ(QDialog): # 지도 업데이트
 
         self.plt = plt
 
-        self.fig = self.plt.figure()
-
         self.view = QWebEngineView()
 
         self.ST.horizontalLayout.addWidget(self.view)
@@ -450,12 +453,18 @@ class Map_READ(QDialog): # 지도 업데이트
 
     @Slot(str)
     def RECV_UPDATE(self,loc):
+        #RECV_INDEX,SET_INDEX = 현재 수신 위치,현재 송신 위치
+        #LOCATION = ex) [3,2,4,1,5]
         global GPS,LOCATION,SET_INDEX,RECV_INDEX,FLOW_DATA,GPS
 
         Xe = 0
         Yn = 0
         
         try:
+
+            self.plt.xlim([-180,180])#메르카토르 도법 기준 -180~180
+            self.plt.ylim([-90,90])#메르카토르 도법 기준 -90~90
+
             if len(LOCATION) >=3:
                 try:
                     if FLOW_DATA[SET_INDEX.value][RECV_INDEX.value] != None and FLOW_DATA[LOCATION[LOCATION.index(SET_INDEX.value+1)-1]-1][LOCATION[LOCATION.index(RECV_INDEX.value+1)-1]-1] != None:
@@ -463,28 +472,30 @@ class Map_READ(QDialog): # 지도 업데이트
                         VEC_1 = np.rad2deg(np.arctan2(GPS[SET_INDEX.value][1]-GPS[RECV_INDEX.value][1],GPS[SET_INDEX.value][0]-GPS[RECV_INDEX.value][0]))
                         VEC_2 = np.rad2deg(np.arctan2(GPS[LOCATION[LOCATION.index(RECV_INDEX.value+1)-1]-1][1]-GPS[RECV_INDEX.value][1],GPS[LOCATION[LOCATION.index(RECV_INDEX.value+1)-1]-1][0]-GPS[RECV_INDEX.value][0]))
 
-                        V = list(map(float,np.dot(np.linalg.inv(np.array([[np.cos(VEC_1),np.sin(VEC_1)],[np.cos(VEC_2),np.sin(VEC_2)]])),np.array([FLOW_DATA[SET_INDEX.value][RECV_INDEX.value],FLOW_DATA[LOCATION[LOCATION.index(SET_INDEX.value+1)-1]-1][LOCATION[LOCATION.index(RECV_INDEX.value+1)-1]-1]]))))
+                        V = list(map(float,np.dot(np.linalg.inv(np.array([[np.cos(VEC_1),np.sin(VEC_1)],[np.cos(VEC_2),np.sin(VEC_2)]])),np.array([FLOW_DATA[RECV_INDEX.value][SET_INDEX.value],FLOW_DATA[RECV_INDEX.value][LOCATION[LOCATION.index(RECV_INDEX.value+1)-1]-1]]))))
 
                         Ve,Vn = V[0],V[1]
+
+                        print(Ve,Vn)
 
                         Xe = (GPS[LOCATION[LOCATION.index(RECV_INDEX.value+1)-1]-1][0]+GPS[SET_INDEX.value][0]+GPS[RECV_INDEX.value][0])/3
                         Yn = (GPS[LOCATION[LOCATION.index(RECV_INDEX.value+1)-1]-1][1]+GPS[SET_INDEX.value][1]+GPS[RECV_INDEX.value][1])/3
 
                         self.plt.quiver(Xe,Yn,Ve,Vn,scale=1,scale_units='xy')
-                        # self.plt.quiver(Xe,Yn,Ve,Vn)
+
                 except:
                     Xe = (GPS[LOCATION[LOCATION.index(RECV_INDEX.value+1)-1]-1][0]+GPS[SET_INDEX.value][0]+GPS[RECV_INDEX.value][0])/3
                     Yn = (GPS[LOCATION[LOCATION.index(RECV_INDEX.value+1)-1]-1][1]+GPS[SET_INDEX.value][1]+GPS[RECV_INDEX.value][1])/3
 
-                    self.plt.plot(Xe,Yn,'ko')
+                    self.plt.plot(Xe,Yn,'ko',markersize=10)
 
-            self.plt.plot([GPS[LOCATION[i]-1][0] for i in range(len(LOCATION))],[GPS[LOCATION[i]-1][1] for i in range(len(LOCATION))],'rs',markersize=10)
+            self.plt.plot([GPS[LOCATION[i]-1][0] for i in range(len(LOCATION))],[GPS[LOCATION[i]-1][1] for i in range(len(LOCATION))],'ro',markersize=10)
+
             self.view.setHtml(mplleaflet.fig_to_html())
 
         except Exception as e:
             print(e)
-            print("2")
-            self.plt.plot([0 for i in range(len(LOCATION))],[0 for i in range(len(LOCATION))],'bs',markersize=10)
+            self.plt.plot([0 for i in range(len(LOCATION))],[0 for i in range(len(LOCATION))],'bo',markersize=10)
             self.view.setHtml(mplleaflet.fig_to_html())
 
 class MAP_VIEW(QThread):
@@ -633,7 +644,7 @@ class WindowClass(QMainWindow,Ui_MainWindow):
             OrderNumber = 65520
             ''''''
 
-            self.textBrowser.append('%s : %s WAIT STATION %s'%(ctime(),ORDER_STRING[OrderNumber],LOCATION[0]))
+            self.textBrowser.append('%s : WAIT STATION %s'%(ctime(),LOCATION[Index_Number]))
             ProcessingQue.put('TimeSet')
 
         except:
@@ -657,6 +668,8 @@ class WindowClass(QMainWindow,Ui_MainWindow):
 
         self.textBrowser.append('%s : STOP'%ctime())
 
+        self.Update_LED('STOP_LED')
+
         for i in range(len(self.w.GPS_LABEL)):
             GPS[i] = [0,0]
             self.w.GPS_LABEL[i].setText(str(GPS[i]))
@@ -669,23 +682,23 @@ class WindowClass(QMainWindow,Ui_MainWindow):
     
     @Slot(str)
     def DATA_UPDATE(self,DATA_RECV): # DRAW DATE PLOT
-        #RECV_INDEX = STATION NUMBER, GPS=[[],[],[],[],[]]
+        #RECV_INDEX,SET_INDEX = 현재 수신 위치-1 (0번->1번),현재 송신 위치-1 (0번->1번)
         global Axis_data,RT_data,RECV_INDEX,LOCATION,DISTANCE,GPS,SET_INDEX,OrderNumber,RT_INDEX,FLOW_DATA,ProcessingQue,COLOR_SET
 
         self.textBrowser.append('STATION %s INDEX : %s'%(RECV_INDEX.value+1,RT_INDEX[RECV_INDEX.value][-1]+2000))
 
         Dis_Dat = 0 # 거리 데이터
-        Flow_DT = 0 # 속도 데이터
+        Flow_DT = 0 # 유속 초기값
 
         if GPS[RECV_INDEX.value] != [0,0] and GPS[SET_INDEX.value] != [0,0] and len(RT_data[SET_INDEX.value])!=0 and len(RT_data[RECV_INDEX.value])!=0:
-            if LOCATION[LOCATION.index(RECV_INDEX.value+1)] == LOCATION[LOCATION.index(SET_INDEX.value+1)-1]: #gps의 값이 0,0이 아니면
-                Dis_Dat = int(haversine(GPS[RECV_INDEX.value][::-1],GPS[SET_INDEX.value][::-1],unit='m'))
+            if LOCATION[LOCATION.index(RECV_INDEX.value+1)] == LOCATION[LOCATION.index(SET_INDEX.value+1)-1]: #현재 위치와 이전 위치가 맞다면 ex) [2,3,1] SET_INDEX가 1일 때, 3이 맞다면
+                Dis_Dat = int(haversine(GPS[RECV_INDEX.value][::-1],GPS[SET_INDEX.value][::-1],unit='m')) # 데이터 거리
                 DISTANCE[RECV_INDEX.value][SET_INDEX.value],DISTANCE[SET_INDEX.value][RECV_INDEX.value] = Dis_Dat,Dis_Dat
                 self.textBrowser.append('STATION %s - STATION %s : %s m '%(SET_INDEX.value+1,RECV_INDEX.value+1,Dis_Dat))
-                t1 = (RT_INDEX[SET_INDEX.value][-1]+2000-OrderNumber)/22000
-                t2 = (RT_INDEX[RECV_INDEX.value][-1]+2000-OrderNumber)/22000
-                Flow_DT = (Dis_Dat/2)*((1/t1)-(1/t2))
-                FLOW_DATA[SET_INDEX.value][RECV_INDEX.value],FLOW_DATA[RECV_INDEX.value][SET_INDEX.value] = Flow_DT,Flow_DT
+                t1 = (RT_INDEX[SET_INDEX.value][-1]+2000-OrderNumber)/22000 #t1의 속도
+                t2 = (RT_INDEX[RECV_INDEX.value][-1]+2000-OrderNumber)/22000 #t2의 속도
+                Flow_DT = (Dis_Dat/2)*((1/t1)-(1/t2)) # 유속 송신위치 - 수신위치
+                FLOW_DATA[SET_INDEX.value][RECV_INDEX.value],FLOW_DATA[RECV_INDEX.value][SET_INDEX.value] = Flow_DT,-Flow_DT #송신위치-수신위치,수신위치-송신위치
                 self.textBrowser.append('Flow Velocity : %s m/s'%Flow_DT)
 
                 if len(LOCATION) >= 3:
@@ -741,8 +754,6 @@ class WindowClass(QMainWindow,Ui_MainWindow):
         ProcessingQue.put('DISTANCE')
     
     def READ_Map(self):
-        global GPS,ProcessingQue
-
         self.Map_.show()
 
     @Slot(str)
@@ -751,6 +762,7 @@ class WindowClass(QMainWindow,Ui_MainWindow):
 
     @Slot(str)
     def Update_LED(self,dt):
+        WORKING_LED = [self.label_7,self.label_9,self.label_10,self.label_11,self.label_12]
         if 'ERR_BOARD_TEMP' in dt:
             self.BOARD_ALERT_LED[int(dt.split()[0])].setStyleSheet("background-color:Red")
         elif 'NOR_BOARD_TEMP' in dt:
@@ -759,6 +771,16 @@ class WindowClass(QMainWindow,Ui_MainWindow):
             self.DSP_ALERT_LED[int(dt.split()[0])].setStyleSheet("background-color:Red")
         elif 'NOR_DSP_TEMP' in dt:
             self.DSP_ALERT_LED[int(dt.split()[0])].setStyleSheet("background-color:Lime")
+        elif 'STOP_LED' in dt:
+            for i in range(len(WORKING_LED)):
+                WORKING_LED[i].setStyleSheet("background-color:Red")
+        elif 'DATA_LED' in dt:
+            DATA_NUMBER = int(dt.split()[0])
+            for i in range(len(WORKING_LED)):
+                if DATA_NUMBER == i:
+                    WORKING_LED[i].setStyleSheet("background-color:Lime")
+                else:
+                    WORKING_LED[i].setStyleSheet("background-color:Red")
 
 if __name__ == "__main__":
 
@@ -784,13 +806,13 @@ if __name__ == "__main__":
     TEDE_INDEX = 0
     SET_INDEX = manager.Value('i',0)
     RECV_INDEX = manager.Value('i',0) # 센서 순서
-    RTS_TEMP = manager.Value('f',0.0)
-    RTS_DEPTH = manager.Value('f',0.0)
+    RTS_TEMP = manager.Value('f',0.0) # 실시간 센서 온도
+    RTS_DEPTH = manager.Value('f',0.0) # 실시간 센서 깊이
 
     Axis_data = []
-    ORDER_STRING = {4080 : '8 ORDER', 16368 : '10 ORDER', 65520 : '12 ORDER'}
-    LOCATION = manager.list([]) #위치 설정
-    DISTANCE = [[0 for i in range(5)],[0 for i in range(5)],[0 for i in range(5)],[0 for i in range(5)],[0 for i in range(5)]]
+    ORDER_STRING = {4080 : '8 ORDER', 16368 : '10 ORDER', 65520 : '12 ORDER'} # ORDER 넘버에 따른 가중치
+    LOCATION = manager.list([]) #위치 순서 설정 ex) [4,5,2,3,1]
+    DISTANCE = [[0 for i in range(5)],[0 for i in range(5)],[0 for i in range(5)],[0 for i in range(5)],[0 for i in range(5)]] # 거리
     DSPEN = manager.list(['Wait' for i in range(5)])
     TRXPSEN = manager.list(['Wait' for i in range(5)])
     TRXCSEN = manager.list(['Wait' for i in range(5)])
@@ -799,13 +821,13 @@ if __name__ == "__main__":
     BOARD_TEMP = manager.list(['Wait' for i in range(5)])
     GPS = manager.list([[0,0] for i in range(5)])
     RT_data = [[],[],[],[],[]] #데이터
-    DATA_TEMP = [[0],[0],[0],[0],[0]]
-    DATA_DEPTH = [[0],[0],[0],[0],[0]]
-    DATA_TIME = [[datetime.now()],[datetime.now()],[datetime.now()],[datetime.now()],[datetime.now()]]
+    DATA_TEMP = [[0],[0],[0],[0],[0]] #센서 온도
+    DATA_DEPTH = [[0],[0],[0],[0],[0]] # 센서 깊이
+    DATA_TIME = [[datetime.now()],[datetime.now()],[datetime.now()],[datetime.now()],[datetime.now()]] # 시간 별 센서 온도
     DSP_TEMP = manager.list(['Wait' for i in range(5)])
-    RT_INDEX = [[],[],[],[],[]]
-    FLOW_DATA =[[None for i in range(5)],[None for i in range(5)],[None for i in range(5)],[None for i in range(5)],[None for i in range(5)]]
-    COLOR_SET = [pg.mkPen(color=(0,255,0),width=1),pg.mkPen(color=(255,0,0),width=1),pg.mkPen(color=(0,0,255),width=1),pg.mkPen(color=(255,255,0),width=1),pg.mkPen(color=(0,255,255),width=1)]
+    RT_INDEX = [[],[],[],[],[]] # 데이터 인덱스 번호
+    FLOW_DATA =[[None for i in range(5)],[None for i in range(5)],[None for i in range(5)],[None for i in range(5)],[None for i in range(5)]] # 유속
+    COLOR_SET = [pg.mkPen(color=(0,255,0),width=1),pg.mkPen(color=(255,0,0),width=1),pg.mkPen(color=(255,0,255),width=1),pg.mkPen(color=(255,255,0),width=1),pg.mkPen(color=(0,255,255),width=1)] # 그래프 색상
     BOARD_LED = [0 for i in range(5)]
     DSP_LED = [0 for i in range(5)]
 
@@ -839,4 +861,3 @@ if __name__ == "__main__":
         
     except Exception as e:
         print(e)
-        print("3")
