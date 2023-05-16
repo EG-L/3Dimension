@@ -19,7 +19,7 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(1147, 673)
         icon = QIcon()
-        icon.addFile(u"../SSS_KW/kyungwon.ico", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"kyungwon.ico", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet(u"background-color:rgba(16,30,41,240);")
         self.centralwidget = QWidget(MainWindow)
