@@ -175,7 +175,7 @@ class DATA_LOG_AUTO_SAVE(QThread):
 
         global DATA_TEMP,DATA_DEPTH,DATA_TIME,ProcessingQue
         while True:
-            time.sleep(60*60*3) # 특정시간 업데이트 대기(60초*60*3 = 3시간 대기)
+            time.sleep(60*5) # 특정시간 업데이트 대기(60초*60*3 = 3시간 대기)
             '''데이터 로그 저장'''
 
             try:
@@ -205,6 +205,9 @@ class DATA_LOG_AUTO_SAVE(QThread):
             ProcessingQue.put('CLEAR_TEXT') # 데이터 로그 창 초기화
 
             #AUTO SAVE DATA_LOG 창 표시 구현 예정
+            time.sleep(0.1)
+
+            ProcessingQue.put('DATA_AUTO_SAVE')
 
             '''파일 생성'''
 
@@ -306,10 +309,10 @@ class Process_Function(QThread): ## MAIN QUEUE BUFFER
                     VERSION_Que.put(Data)
                     self.parent.VERSION_UPDATE.start() #GPS 업데이트 함수 실행
                 elif Data == 'RECV_RTS_DATA': # TEMP , DEPTH
-                    if self.parent.start_time[3].split(":")[0] != list(filter(None,ctime().split(' ')))[3].split(":")[0]: #현재 시간이랑 다를 경우
+                    if (int(self.parent.start_time[3].split(":")[0])+3)%24 == int(list(filter(None,ctime().split(' ')))[3].split(":")[0]): #현재 시간 +3 일 경우 동작 진행(ex: 3시간 후)
                         DATA_TEMP = [[0],[0],[0],[0],[0]]# 초기화
                         DATA_DEPTH = [[0],[0],[0],[0],[0]]# 초기화
-                        DATA_TIME = [[datetime.now()],[datetime.now()],[datetime.now()],[datetime.now()],[datetime.now()]]# 초기화
+                        DATA_TIME = [[datetime.now()],[datetime.now()],[datetime.now()],[datetime.now()],[datetime.now()]]# start_time 지정
 
                         self.parent.start_time = list(filter(None,ctime().split(' ')))
 
@@ -343,6 +346,7 @@ class Process_Function(QThread): ## MAIN QUEUE BUFFER
                         pd.DataFrame(Data).to_csv('./KW_CSV_Data/%s/%s/%s/%s_Station_%s_Station_%s.csv'%(ctime().split(' ')[-1],ctime().split(' ')[1],ctime().split(' ')[2],re.sub(" |:","_",ctime()),SET_INDEX.value+1,RECV_INDEX.value+1),header=False,index=False)
                     except:# 데이터 저장 중 경로가 없을 경우 예외 처리
                         print("Not DATA SAVE")
+
                         if not os.path.exists('./KW_CSV_Data'):# 파일이 없을 경우 파일 생성
                             os.makedirs('./KW_CSV_Data')
 
@@ -388,6 +392,9 @@ class Process_Function(QThread): ## MAIN QUEUE BUFFER
                     
                 elif 'DATA_LED' in Data: # LED 관련 업데이트 함수
                     self.UPDATE_LED.emit(Data)
+
+                elif 'DATA_AUTO_SAVE' in Data:
+                    self.parent.textBrowser.append('DATA LOG AUTO SAVE\n%s'%os.getcwd()+'\KW_CSV_Data')
 
 class TEDE_UPDATE(QThread):
     Update_SEND = Signal(str)# 온도 및 깊이 업데이트를 위한 Signal/Slot 함수
