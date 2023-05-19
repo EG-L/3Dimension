@@ -175,7 +175,7 @@ class DATA_LOG_AUTO_SAVE(QThread):
 
         global DATA_TEMP,DATA_DEPTH,DATA_TIME,ProcessingQue
         while True:
-            time.sleep(60*60*6) # 특정시간 업데이트 대기
+            time.sleep(60*60*3) # 특정시간 업데이트 대기(60초*60*3 = 3시간 대기)
             '''데이터 로그 저장'''
 
             try:
@@ -197,12 +197,17 @@ class DATA_LOG_AUTO_SAVE(QThread):
                     os.makedirs('./KW_CSV_Data/%s/%s/%s'%(list(filter(None,ctime().split(' ')))[-1],list(filter(None,ctime().split(' ')))[1],list(filter(None,ctime().split(' ')))[2]))
                     
                     with open('./KW_CSV_Data/%s/%s/%s/%s_DATA_LOG.txt'%(list(filter(None,ctime().split(' ')))[-1],list(filter(None,ctime().split(' ')))[1],list(filter(None,ctime().split(' ')))[2],re.sub(" |:","_",ctime())),'w') as file:
-                        file.write(self.parent.textBrowser.toPlainText())
+                        file.write(self.parent.textBrowser.toPlainText())#현재까지 로그 파일을 저장
                 pass
             
             time.sleep(0.1)
             
             ProcessingQue.put('CLEAR_TEXT') # 데이터 로그 창 초기화
+
+            #AUTO SAVE DATA_LOG 창 표시 구현 예정
+            time.sleep(0.1)
+
+            ProcessingQue.put('DATA_AUTO_SAVE')
 
             '''파일 생성'''
 
@@ -286,7 +291,7 @@ class Process_Function(QThread): ## MAIN QUEUE BUFFER
                     Thread_Working = False
                     self.parent._QTimeSet.terminate() # 동작 초기화
                     self.parent._QDTREAD.terminate() # 동작 초기화
-                    self.parent._AUTOSAVE.terminate()
+                    self.parent._AUTOSAVE.terminate() # 동작 초기화
                     if ProcessingQue.empty() != True:
                         while True: # Queue 경우 clear 함수가 없기 때문에 공간이 빌 때까지 비워주어 Queue에 아무것도 없게 만들어 Stop한다.
                             ProcessingQue.get()
@@ -304,10 +309,10 @@ class Process_Function(QThread): ## MAIN QUEUE BUFFER
                     VERSION_Que.put(Data)
                     self.parent.VERSION_UPDATE.start() #GPS 업데이트 함수 실행
                 elif Data == 'RECV_RTS_DATA': # TEMP , DEPTH
-                    if self.parent.start_time[2] != list(filter(None,ctime().split(' ')))[2]: #현재 날짜랑 다를 경우 동작 진행(ex: 다음날일 경우)
+                    if (int(self.parent.start_time[3].split(":")[0])+3)%24 == int(list(filter(None,ctime().split(' ')))[3].split(":")[0]): #현재 시간 +3 일 경우 동작 진행(ex: 3시간 후)
                         DATA_TEMP = [[0],[0],[0],[0],[0]]# 초기화
                         DATA_DEPTH = [[0],[0],[0],[0],[0]]# 초기화
-                        DATA_TIME = [[datetime.now()],[datetime.now()],[datetime.now()],[datetime.now()],[datetime.now()]]# 초기화
+                        DATA_TIME = [[datetime.now()],[datetime.now()],[datetime.now()],[datetime.now()],[datetime.now()]]# start_time 지정
 
                         self.parent.start_time = list(filter(None,ctime().split(' ')))
 
@@ -341,6 +346,19 @@ class Process_Function(QThread): ## MAIN QUEUE BUFFER
                         pd.DataFrame(Data).to_csv('./KW_CSV_Data/%s/%s/%s/%s_Station_%s_Station_%s.csv'%(ctime().split(' ')[-1],ctime().split(' ')[1],ctime().split(' ')[2],re.sub(" |:","_",ctime()),SET_INDEX.value+1,RECV_INDEX.value+1),header=False,index=False)
                     except:# 데이터 저장 중 경로가 없을 경우 예외 처리
                         print("Not DATA SAVE")
+
+                        if not os.path.exists('./KW_CSV_Data'):# 파일이 없을 경우 파일 생성
+                            os.makedirs('./KW_CSV_Data')
+
+                        if not os.path.exists('./KW_CSV_Data/%s'%list(filter(None,ctime().split(' ')))[-1]):
+                            os.makedirs('./KW_CSV_Data/%s'%list(filter(None,ctime().split(' ')))[-1])
+
+                        if not os.path.exists('./KW_CSV_Data/%s/%s'%(list(filter(None,ctime().split(' ')))[-1],list(filter(None,ctime().split(' ')))[1])):
+                            os.makedirs('./KW_CSV_Data/%s/%s'%(list(filter(None,ctime().split(' ')))[-1],list(filter(None,ctime().split(' ')))[1]))
+                        
+                        if not os.path.exists('./KW_CSV_Data/%s/%s/%s'%(list(filter(None,ctime().split(' ')))[-1],list(filter(None,ctime().split(' ')))[1],list(filter(None,ctime().split(' ')))[2])):
+                            
+                            os.makedirs('./KW_CSV_Data/%s/%s/%s'%(list(filter(None,ctime().split(' ')))[-1],list(filter(None,ctime().split(' ')))[1],list(filter(None,ctime().split(' ')))[2]))
                         pass
                     START_INDEX = Data.pop(0) # 데이터 인덱스 저장
                     RT_INDEX[RECV_INDEX.value] = [START_INDEX] # 시작 인덱스 위치
@@ -374,6 +392,9 @@ class Process_Function(QThread): ## MAIN QUEUE BUFFER
                     
                 elif 'DATA_LED' in Data: # LED 관련 업데이트 함수
                     self.UPDATE_LED.emit(Data)
+
+                elif 'DATA_AUTO_SAVE' in Data:
+                    self.parent.textBrowser.append('DATA LOG AUTO SAVE\n%s'%os.getcwd()+'\KW_CSV_Data')
 
 class TEDE_UPDATE(QThread):
     Update_SEND = Signal(str)# 온도 및 깊이 업데이트를 위한 Signal/Slot 함수
@@ -584,7 +605,7 @@ class WindowClass(QMainWindow,Ui_MainWindow):
         self._TEDE_UPDATE = TEDE_UPDATE(self) # 센서 온도 및 깊이 Update Thread
         self._QTimeSet = Q_TimeSet(self) # 동작 관련 Thread
         self._QDTREAD = Q_DATAREAD(self) # 데이터 업데이트 관련 Thread
-        self._AUTOSAVE = DATA_LOG_AUTO_SAVE(self)
+        self._AUTOSAVE = DATA_LOG_AUTO_SAVE(self) # 자동 저장 관련 Thread
         self._Worker.SendData.connect(self.Setting_Axis)#Signal/Slot 연동
         self._ProcessFunc.DT_SEND.connect(self.DATA_UPDATE)#Signal/Slot 연동
         self._ProcessFunc.CL_TEXT.connect(self.CLEAR_TEXT)#Signal/Slot 연동
